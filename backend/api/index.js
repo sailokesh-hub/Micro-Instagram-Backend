@@ -12,7 +12,7 @@ mongoose
   .then(() => console.log("Mongo db Connected"))
   .catch((err) => console.log(err));
 
-const UserRoutes = require("./routes/users");
+const UserRoutes = require("../routes/users");
 app.use("/api/users", UserRoutes);
 
 app.listen(PORT, () => {
