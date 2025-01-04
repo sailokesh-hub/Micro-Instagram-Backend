@@ -1,5 +1,5 @@
 const express = require("express");
-const mongoose = require("mongoose");
+const sequelize= require("../config/database");
 const dotenv = require("dotenv");
 const app = express();
 app.use(express.json());
@@ -7,10 +7,11 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("Mongo db Connected"))
-  .catch((err) => console.log(err));
+// Test the database connection
+sequelize
+  .sync() // Automatically create tables if they don't exist
+  .then(() => console.log("Database synced successfully!"))
+  .catch((err) => console.error("Error syncing database:", err));
 
 const UserRoutes = require("../routes/users");
 app.use("/api/users", UserRoutes);
