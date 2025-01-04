@@ -9,6 +9,15 @@ const Post = sequelize.define("Post", {
   images: { type: DataTypes.JSONB, defaultValue: [] },
 });
 
+// Create a relationship: Post belongs to User
 Post.belongsTo(User, { foreignKey: "user_id" });
+
+// After a post is created, increment the post_count for the user
+Post.afterCreate(async (post, options) => {
+  const user = await User.findByPk(post.user_id);
+  if (user) {
+    user.increment('post_count');
+  }
+});
 
 module.exports = Post;

@@ -9,9 +9,4 @@ const User = sequelize.define("User", {
   post_count: { type: DataTypes.INTEGER, defaultValue: 0 },
 });
 
-// Increment post_count whenever a post is created
-User.afterCreate((user, options) => {
-  user.increment('post_count');
-});
-
 module.exports = User;
