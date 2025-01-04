@@ -14,7 +14,7 @@ sequelize
   .catch((err) => console.error("Error syncing database:", err));
 
 const UserRoutes = require("../routes/users");
-app.use("/api/users", UserRoutes);
+app.use("/api", UserRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at ${PORT}`);

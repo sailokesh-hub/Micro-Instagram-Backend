@@ -3,6 +3,26 @@ const router = express.Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
 
+// POST route to create a new user
+router.post("/users", async (req, res) => {
+  try {
+    const { name, mobile_number, address } = req.body;
+
+    // Create a new user
+    const user = await User.create({
+      name,
+      mobile_number,
+      address,
+      post_count: 0, // Initialize post_count as 0
+    });
+
+    res.status(201).json({ message: "User created successfully", user });
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(400).json({ message: "Error creating user", error });
+  }
+});
+
 // Get all users
 router.get("/users", async (req, res) => {
   try {
@@ -102,8 +122,8 @@ router.delete("/users/:userId/posts/:postId", async (req, res) => {
   }
 });
 
-router.get('/', (req, res) => {
-  res.status(200).send("Server running")
-})
+router.get("/", (req, res) => {
+  res.status(200).send("Server running");
+});
 
 module.exports = router;
