@@ -1,21 +1,23 @@
-const { Sequelize } = require('sequelize');
-require('dotenv').config();
+const { Sequelize } = require("sequelize");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  protocol: 'postgres',
-  logging: false, // Disable logging; set to console.log for debugging
+  dialect: "postgres", // Tell Sequelize to use PostgreSQL
+  logging: false,
+  dialectModule: require('pg'),
   dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false, // Needed for Neon Tech SSL connections
+      rejectUnauthorized: false,
     },
   },
 });
 
 sequelize
   .authenticate()
-  .then(() => console.log('PostgreSQL connected successfully!'))
-  .catch((err) => console.error('Unable to connect to the database:', err));
+
+  .then(() => console.log("Connection to PostgreSQL successful"))
+  .catch((err) => console.error("Failed to connect to PostgreSQL:", err));
 
 module.exports = sequelize;
