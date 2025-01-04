@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 
 // Get all users
-router.get('/', async (req, res) => {
+router.get('/users', async (req, res) => {
   try {
     const users = await User.findAll();
     res.json(users);
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 // Add a new user
-router.post('/', async (req, res) => {
+router.post('/users', async (req, res) => {
   try {
     const user = await User.create(req.body);
     res.status(201).json(user);
@@ -21,5 +21,9 @@ router.post('/', async (req, res) => {
     res.status(400).json({ message: 'Error creating user', error });
   }
 });
+
+router.get("/", (req, res) => {
+  res.status(200).send("Server running")
+})
 
 module.exports = router;
