@@ -102,4 +102,8 @@ router.delete("/users/:userId/posts/:postId", async (req, res) => {
   }
 });
 
+router.get('/', (req, res) => {
+  res.status(200).send("Server running")
+})
+
 module.exports = router;
