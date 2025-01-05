@@ -9,10 +9,6 @@ const User = sequelize.define(
     mobile_number: { type: DataTypes.INTEGER, allowNull: false, unique: true },
     address: { type: DataTypes.TEXT },
     post_count: { type: DataTypes.INTEGER, defaultValue: 0 },
-  },
-  {
-    tableName: "users", // Explicitly specify the table name
-    timestamps: true, // Ensures createdAt and updatedAt are handled
   }
 );
 
