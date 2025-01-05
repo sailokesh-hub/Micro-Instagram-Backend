@@ -76,11 +76,9 @@ router.post("/users/:userId/posts", async (req, res) => {
       post, // Return the created post object
     });
   } catch (error) {
-    console.error("Error creating post:", error);
     res.status(500).json({ message: "An error occurred while creating the post.", error });
   }
 });
-
 
 
 
@@ -105,6 +103,8 @@ router.get("/posts", async (req, res) => {
     res.status(500).json({ message: "Error retrieving posts", error });
   }
 });
+
+
 
 // Get all posts by a specific user
 router.get("/users/:userId/posts", async (req, res) => {
@@ -143,7 +143,7 @@ router.put("/users/:userId/posts/:postId", async (req, res) => {
     const updatedPost = await post.update(req.body);
     res.json(updatedPost);
   } catch (error) {
-    res.status(400).json({ message: "Error updating post", error });
+    res.status(400).json({ message: "Error updating post" });
   }
 });
 
