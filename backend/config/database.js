@@ -2,8 +2,10 @@ const { Sequelize } = require("sequelize");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: "postgres", // Tell Sequelize to use PostgreSQL
+const isTestEnv = process.env.NODE_ENV === 'test';
+
+const sequelize = new Sequelize(isTestEnv ? process.env.TEST_DATABASE_URL : process.env.DATABASE_URL, {
+  dialect: "postgres",
   logging: false,
   dialectModule: require('pg'),
   dialectOptions: {
@@ -16,8 +18,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 
 sequelize
   .authenticate()
-
-  .then(() => console.log("Connection to PostgreSQL successful"))
-  .catch((err) => console.error("Failed to connect to PostgreSQL:", err));
+  .then(() => console.log(isTestEnv ? "Connection to test database successful" : "Connection to PostgreSQL successful"))
+  .catch((err) => console.error(isTestEnv ? "Failed to connect to test database" : "Failed to connect to PostgreSQL:", err));
 
 module.exports = sequelize;
