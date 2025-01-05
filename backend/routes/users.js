@@ -39,6 +39,35 @@ router.post("/users", async (req, res) => {
   }
 });
 
+router.post("/users/:userId/posts", async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User with the given user_id does not exist." });
+    }
+
+    // Create the post
+    const post = await Post.create({
+      ...req.body,
+      user_id: user.id,
+    });
+
+    // Increment the post count for the user
+    await user.increment("post_count");
+
+    // Respond with a structured response
+    res.status(201).json({
+      message: "Post created successfully",
+      post, // Return the created post object
+    });
+  } catch (error) {
+    res.status(400).json({ message: "Error creating post", error });
+  }
+});
+
+
+
+
 
 // Get all users
 router.get("/users", async (req, res) => {
@@ -78,24 +107,7 @@ router.get("/users/:userId/posts", async (req, res) => {
   }
 });
 
-// Create a new post for a user
-router.post("/users/:userId/posts", async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
 
-    const post = await Post.create({
-      ...req.body,
-      user_id: user.id,
-    });
-
-    res.status(201).json(post);
-  } catch (error) {
-    res.status(400).json({ message: "Error creating post", error });
-  }
-});
 
 // Edit a post for a user
 router.put("/users/:userId/posts/:postId", async (req, res) => {

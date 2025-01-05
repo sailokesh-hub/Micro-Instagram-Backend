@@ -7,11 +7,12 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 
-// Test the database connection
-sequelize
-  .sync() // Automatically create tables if they don't exist
-  .then(() => console.log("Database synced successfully!"))
-  .catch((err) => console.error("Error syncing database:", err));
+// Sync only in production or when needed
+if (process.env.NODE_ENV !== 'test') {
+  sequelize.sync()
+    .then(() => console.log('Database synced successfully!'))
+    .catch((err) => console.error('Error syncing database:', err));
+}
 
 const UserRoutes = require("../routes/users");
 app.use("/api", UserRoutes);
