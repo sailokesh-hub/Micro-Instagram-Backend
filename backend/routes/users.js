@@ -11,6 +11,7 @@ router.post("/users", async (req, res) => {
 
     // Validate input
     if (!name || !mobile_number || !address) {
+      console.log("input no")
       return res
         .status(400)
         .json({ message: "All fields are required: name, mobile_number, and address." });
