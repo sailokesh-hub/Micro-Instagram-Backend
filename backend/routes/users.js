@@ -5,24 +5,39 @@ const Post = require("../models/Post");
 
 // POST route to create a new user
 router.post("/users", async (req, res) => {
-  console.log("recived")
+  console.log("Received POST /users request");
   try {
     const { name, mobile_number, address } = req.body;
+
+    // Validate input
+    if (!name || !mobile_number || !address) {
+      return res
+        .status(400)
+        .json({ message: "All fields are required: name, mobile_number, and address." });
+    }
 
     // Create a new user
     const user = await User.create({
       name,
       mobile_number,
       address,
-      post_count: 0, // Initialize post_count as 0
     });
 
     res.status(201).json({ message: "User created successfully", user });
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(400).json({ message: "Error creating user", error });
+
+    // Handle unique constraint error for mobile_number
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return res
+        .status(409)
+        .json({ message: "Mobile number must be unique", error: error.errors });
+    }
+
+    res.status(500).json({ message: "Error creating user", error });
   }
 });
+
 
 // Get all users
 router.get("/users", async (req, res) => {
