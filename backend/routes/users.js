@@ -5,16 +5,19 @@ const Post = require("../models/Post");
 
 // POST route to create a new user
 router.post("/users", async (req, res) => {
-  console.log("Received POST /users request");
   try {
     const { name, mobile_number, address } = req.body;
 
     // Validate input
     if (!name || !mobile_number || !address) {
-      console.log("no input")
-      return res
-        .status(400)
-        .json({ message: "All fields are required: name, mobile_number, and address." });
+      return res.status(400).json({
+        message: "All fields are required: name, mobile_number, and address.",
+      });
+    }
+
+    const existingUser = await User.findOne({ where: { mobile_number: req.body.mobile_number } });
+    if (existingUser) {
+      return res.status(409).json({ message: "Mobile number already in use." });
     }
 
     // Create a new user
@@ -25,22 +28,32 @@ router.post("/users", async (req, res) => {
     });
 
     res.status(201).json({ message: "User created successfully", user });
+    
   } catch (error) {
-    console.error("Error creating user:", error);
-
     // Handle unique constraint error for mobile_number
     if (error.name === "SequelizeUniqueConstraintError") {
-      return res
-        .status(409)
-        .json({ message: "Mobile number must be unique", error: error.errors });
+      return res.status(409).json({
+        message: "Mobile number must be unique.",
+        error: error.errors,
+      });
     }
 
     res.status(500).json({ message: "Error creating user", error });
   }
 });
 
+
+// POST route to create a post for a user
 router.post("/users/:userId/posts", async (req, res) => {
   try {
+    const { title, description, images } = req.body;
+    
+    // Ensure title and description are provided
+    if (!title || !description) {
+      return res.status(400).json({ message: "Title and description are required." });
+    }
+
+    // Find the user
     const user = await User.findByPk(req.params.userId);
     if (!user) {
       return res.status(404).json({ message: "User with the given user_id does not exist." });
@@ -48,22 +61,26 @@ router.post("/users/:userId/posts", async (req, res) => {
 
     // Create the post
     const post = await Post.create({
-      ...req.body,
+      title,
+      description,
+      images: images || [], // Ensure images is always an array
       user_id: user.id,
     });
 
     // Increment the post count for the user
     await user.increment("post_count");
 
-    // Respond with a structured response
+    // Respond with the post details
     res.status(201).json({
       message: "Post created successfully",
       post, // Return the created post object
     });
   } catch (error) {
-    res.status(400).json({ message: "Error creating post", error });
+    console.error("Error creating post:", error);
+    res.status(500).json({ message: "An error occurred while creating the post.", error });
   }
 });
+
 
 
 

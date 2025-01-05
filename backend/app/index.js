@@ -5,8 +5,6 @@ const app = express();
 app.use(express.json());
 dotenv.config();
 
-const PORT = process.env.PORT;
-
 // Sync only in production or when needed
 if (process.env.NODE_ENV !== 'test') {
   sequelize.sync()
@@ -17,8 +15,12 @@ if (process.env.NODE_ENV !== 'test') {
 const UserRoutes = require("../routes/users");
 app.use("/api", UserRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running at ${PORT}`);
-});
+
+if (process.env.NODE_ENV !== "test") {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running at ${PORT}`);
+  });
+}
 
 module.exports = app;

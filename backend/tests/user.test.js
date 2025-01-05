@@ -1,97 +1,90 @@
 const request = require("supertest");
-const app = require("../app"); // Import the app (already set up with routes)
-const { User } = require("../models"); // Sequelize User model
+const app = require("../app");
 const sequelize = require("../config/database");
+const User = require("../models/User");
 
-describe("POST /api/users", () => {
+describe("POST /users", () => {
+  // Sync database before running tests
   beforeAll(async () => {
-    // Sync the database for testing purposes
-    await sequelize.sync({ force: true }); // Clears all tables before tests
+    await sequelize.sync({ force: true });
   });
 
+  // Cleanup: Clear users after each test
   afterEach(async () => {
-    // Clean up any data in the database after each test if needed
     await User.destroy({ where: {} });
   });
 
+  // Close the database connection after all tests
   afterAll(async () => {
-    // Close the connection after all tests are done
     await sequelize.close();
   });
 
-  it("should create a user with valid input", async () => {
-    const newUser = {
-      name: "John Doe",
+  it("should create a user with valid data", async () => {
+    const userData = {
+      name: "Test User",
       mobile_number: "1234567890",
-      address: "123 Main St",
+      address: "123 Test Street",
     };
 
-    const response = await request(app)
-      .post("/api/users")
-      .send(newUser)
-      .expect(201);
+    // Make sure user doesn't exist before testing
+    await User.destroy({ where: { mobile_number: userData.mobile_number } });
 
-    expect(response.body.message).toBe("User created successfully");
-    expect(response.body.user.name).toBe(newUser.name);
-    expect(response.body.user.mobile_number).toBe(newUser.mobile_number);
-    expect(response.body.user.address).toBe(newUser.address);
+    const response = await request(app).post("/api/users").send(userData);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("message", "User created successfully");
+    expect(response.body.user).toMatchObject(userData);
+
+    // Verify user in the database
+    const userInDb = await User.findOne({ where: { mobile_number: userData.mobile_number } });
+    expect(userInDb).not.toBeNull();
+    expect(userInDb.name).toBe(userData.name);
   });
 
   it("should return 400 if required fields are missing", async () => {
-    const newUser = { name: "John Doe" }; // Missing mobile_number and address
+    const response = await request(app).post("/api/users").send({
+      name: "Test User",
+    });
 
-    const response = await request(app)
-      .post("/api/users")
-      .send(newUser)
-      .expect(400);
-
-    expect(response.body.message).toBe(
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty(
+      "message",
       "All fields are required: name, mobile_number, and address."
     );
   });
 
   it("should return 409 if mobile_number is not unique", async () => {
-    const existingUser = {
-      name: "Jane Doe",
+    const userData = {
+      name: "Test User",
       mobile_number: "1234567890",
-      address: "456 Main St",
+      address: "123 Test Street",
     };
 
     // Create the first user
-    await request(app).post("/api/users").send(existingUser).expect(201);
+    await User.create(userData);
 
-    // Try to create a second user with the same mobile_number
-    const newUser = {
-      name: "John Doe",
-      mobile_number: "1234567890", // Same as existing
-      address: "789 Main St",
-    };
+    // Attempt to create a second user with the same mobile number
+    const response = await request(app).post("/api/users").send(userData);
 
-    const response = await request(app)
-      .post("/api/users")
-      .send(newUser)
-      .expect(409);
-
-    expect(response.body.message).toBe("Mobile number must be unique");
+    expect(response.status).toBe(409);
+    expect(response.body).toHaveProperty("message", "Mobile number already in use.");
   });
 
-  it("should return 500 if there's a server error", async () => {
-    const newUser = {
-      name: "Test User",
-      mobile_number: "9876543210",
-      address: "Test Address",
-    };
-
-    // Mock an error by making the model throw
-    jest.spyOn(User, "create").mockImplementationOnce(() => {
-      throw new Error("Database error");
+  it("should return 500 if there is a server error", async () => {
+    jest.spyOn(User, "create").mockImplementation(() => {
+      throw new Error("Test server error");
     });
 
-    const response = await request(app)
-      .post("/api/users")
-      .send(newUser)
-      .expect(500);
+    const response = await request(app).post("/api/users").send({
+      name: "Error User",
+      mobile_number: "1234567899",
+      address: "Error Street",
+    });
 
-    expect(response.body.message).toBe("Error creating user");
+    expect(response.status).toBe(500);
+    expect(response.body).toHaveProperty("message", "Error creating user");
+
+    // Restore the original implementation
+    User.create.mockRestore();
   });
 });
