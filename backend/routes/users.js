@@ -5,6 +5,7 @@ const Post = require("../models/Post");
 
 // POST route to create a new user
 router.post("/users", async (req, res) => {
+  console.log("recived")
   try {
     const { name, mobile_number, address } = req.body;
 
