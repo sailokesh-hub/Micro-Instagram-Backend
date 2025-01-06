@@ -17,8 +17,8 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
    cd Micro-Instagram-Backend
 
 ## Install Dependencies
-     ```bash
-       npm install
+
+      npm install
 
 ## API Endpoints
 
