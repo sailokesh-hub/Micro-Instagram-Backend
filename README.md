@@ -34,7 +34,7 @@ You can access the live version of the application at:
 
        npm start
    
- **Access the application: Open your browser and navigate to http://localhost:3001/api/. if you see Server Running message in browser then server started succufully.**
+ **Access the application: Open your browser and navigate to http://localhost:3001/. if you see Server Running message in browser then server started succufully.**
 
 ## API Endpoints
 
