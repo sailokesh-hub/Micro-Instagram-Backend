@@ -20,6 +20,12 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
 
       npm install
 
+## Running the Application Locally
+
+### Start the Server:
+
+      npm start
+ **Access the application: Open your browser and navigate to http://localhost:3001.**
 ## API Endpoints
 
 | Method | Endpoint                         | Description                  |
