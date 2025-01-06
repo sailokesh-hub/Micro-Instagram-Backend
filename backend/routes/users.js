@@ -159,7 +159,7 @@ router.delete("/users/:userId/posts/:postId", async (req, res) => {
     }
 
     await post.destroy();
-    res.status(204).send({message: "Post deleted successfully"});
+    res.status(204).json({message: `Post deleted successfully${req.params.userId}`});
   } catch (error) {
     res.status(400).json({ message: "Error deleting post", error });
   }
