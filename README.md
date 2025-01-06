@@ -1,4 +1,4 @@
-# Project Name
+# Micro Instagram Backend
 
 ## Description
 This project is a Node.js application with Express, Sequelize (with PostgreSQL), and a set of RESTful APIs for user and post management. It includes the functionality to create, read, update, and delete users and posts. Jest is used for testing the API endpoints.
