@@ -24,8 +24,9 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
 
 1. **Start the Server:**
 
-      npm start
+       npm start
  **Access the application: Open your browser and navigate to http://localhost:3001.**
+
 ## API Endpoints
 
 | Method | Endpoint                         | Description                  |
@@ -39,4 +40,12 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
 | GET    | /users/:userId/posts             | Get all posts by a user      |
 | PUT    | /users/:userId/posts/:postId     | Update a post by ID          |
 | DELETE | /users/:userId/posts/:postId     | Delete a post by ID          |
+
+## Testing the Application
+
+### Run Test Cases Using Jest:
+
+#### Execute Tests:
+
+       npm test
 
