@@ -42,9 +42,7 @@ You can access the live version of the application at:
 |--------|----------------------------------|------------------------------|
 | POST   | /users                           | Create a new user            |
 | GET    | /users                           | Get all users                |
-| GET    | /users/:userId                   | Get user by ID               |
-| PUT    | /users/:userId                   | Update a user by ID          |
-| DELETE | /users/:userId                   | Delete a user by ID          |
+| DELETE | /posts                           | Get all Posts                |
 | POST   | /users/:userId/posts             | Create a post for a user     |
 | GET    | /users/:userId/posts             | Get all posts by a user      |
 | PUT    | /users/:userId/posts/:postId     | Update a post by ID          |
