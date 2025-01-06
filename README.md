@@ -27,7 +27,7 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
 
        npm start
    
- **Access the application: Open your browser and navigate to http://localhost:3001.**
+ **Access the application: Open your browser and navigate to http://localhost:3001/api/. if you see Server Running message in browser then server started succufully.**
 
 ## API Endpoints
 
