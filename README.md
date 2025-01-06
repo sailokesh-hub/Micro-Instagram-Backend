@@ -17,14 +17,16 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
    cd Micro-Instagram-Backend
 
 ## Install Dependencies
+2. **install all dependencies type below command in the cloned repository**
 
-      npm install
+       npm install
 
 ## Running the Application Locally
 
-1. **Start the Server:**
+3. **Start the Server by typing below command**
 
        npm start
+   
  **Access the application: Open your browser and navigate to http://localhost:3001.**
 
 ## API Endpoints
