@@ -3,6 +3,13 @@
 ## Description
 This project is a Node.js application with Express, Sequelize (with PostgreSQL), and a set of RESTful APIs for user and post management. It includes the functionality to create, read, update, and delete users and posts. Jest is used for testing the API endpoints.
 
+## Accessing the Live Application
+
+You can access the live version of the application at:
+
+[Live Application](https://micro-instagram-backend-git-main-sailokesh-hubs-projects.vercel.app/api)
+
+
 ## Requirements
 - Node.js (v14 or later)
 - npm or yarn
