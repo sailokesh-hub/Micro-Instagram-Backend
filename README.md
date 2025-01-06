@@ -22,7 +22,7 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
 
 ## Running the Application Locally
 
-### Start the Server:
+1. **Start the Server:**
 
       npm start
  **Access the application: Open your browser and navigate to http://localhost:3001.**
