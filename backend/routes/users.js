@@ -81,9 +81,6 @@ router.post("/users/:userId/posts", async (req, res) => {
 });
 
 
-
-
-
 // Get all users
 router.get("/users", async (req, res) => {
   try {
@@ -162,7 +159,7 @@ router.delete("/users/:userId/posts/:postId", async (req, res) => {
     }
 
     await post.destroy();
-    res.status(204).send();
+    res.status(204).send({message: "Post deleted successfully"});
   } catch (error) {
     res.status(400).json({ message: "Error deleting post", error });
   }

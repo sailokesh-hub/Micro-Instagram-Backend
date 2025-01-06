@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 const UserRoutes = require("../routes/users");
-app.use("/", UserRoutes);
+app.use("/api", UserRoutes);
 
 
 if (process.env.NODE_ENV !== "test") {
