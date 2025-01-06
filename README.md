@@ -15,11 +15,23 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
    ```bash
    git clone https://github.com/sailokesh-hub/Micro-Instagram-Backend.git
    cd Micro-Instagram-Backend
-   
-## Install dependencies
+
+## Install Dependencies
    ```bash
    npm install
 
-## Running the Application Locally
-   ```bash
-   npm start
+
+## API Endpoints
+
+| Method | Endpoint                         | Description                  |
+|--------|----------------------------------|------------------------------|
+| POST   | /users                           | Create a new user            |
+| GET    | /users                           | Get all users                |
+| GET    | /users/:userId                   | Get user by ID               |
+| PUT    | /users/:userId                   | Update a user by ID          |
+| DELETE | /users/:userId                   | Delete a user by ID          |
+| POST   | /users/:userId/posts             | Create a post for a user     |
+| GET    | /users/:userId/posts             | Get all posts by a user      |
+| PUT    | /users/:userId/posts/:postId     | Update a post by ID          |
+| DELETE | /users/:userId/posts/:postId     | Delete a post by ID          |
+
