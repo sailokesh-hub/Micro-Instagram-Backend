@@ -13,5 +13,13 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/your-repository-name.git
-   cd your-repository-name
+   git clone https://github.com/sailokesh-hub/Micro-Instagram-Backend.git
+   cd Micro-Instagram-Backend
+   
+## Install dependencies
+   ```bash
+   npm install
+
+## Running the Application Locally
+   ```bash
+   npm start
