@@ -7,7 +7,7 @@ This project is a Node.js application with Express, Sequelize (with PostgreSQL),
 
 You can access the live version of the application at:
 
-[Live Application](https://micro-instagram-backend-git-main-sailokesh-hubs-projects.vercel.app/api)
+[Live Application](https://micro-instagram-backend-opal.vercel.app/api)
 
 
 ## Requirements
